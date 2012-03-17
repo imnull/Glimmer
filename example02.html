@@ -1,0 +1,66 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<script type="text/javascript" src="scripts/Physical.base.js"></script>
+	<script type="text/javascript" src="scripts/Glimmer.core.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+function drawPoint(ctx, p){
+	if(!p) return;
+	ctx.beginPath();
+	ctx.rect(p.x - 2.5, p.y - 2.5, 5, 5);
+	ctx.stroke();
+}
+
+function drawLines(ctx, ps){
+	if(!ps || ps.length < 2) return;
+	ctx.beginPath();
+	ctx.moveTo(ps[0].x, ps[0].y);
+	for(var i = 1, len = ps.length; i < len; i++){
+		ctx.lineTo(ps[i].x, ps[i].y);
+	}
+	ctx.stroke();
+}
+
+function drawSegment(ctx, seg){
+	if(!seg) return;
+	ctx.beginPath();
+	ctx.moveTo(seg.o.x, seg.o.y);
+	ctx.lineTo(seg.e.x, seg.e.y);
+	ctx.stroke();
+}
+
+
+var canvas = document.createElement('canvas');
+canvas.style.cssText = 'border:1px solid #000';
+var ctx = canvas.getContext('2d');
+
+var reflector = Segment.create(60, 50, 200, 120);
+var light = Segment.create(5, 140, 500, 10);
+
+
+window.onload = function(){
+	document.body.appendChild(canvas);
+	drawSegment(ctx, reflector);
+	setInterval(function(){
+		var ls = reflector.reflect(light);
+		if(!!ls){
+			drawSegment(ctx, ls[0]);
+			drawSegment(ctx, ls[1]);
+		} else {
+			drawSegment(ctx, light);
+		}
+		
+		light.rotate(Angle.degree(-7))
+	}, 50);
+	
+}
+
+</script>
+
+</body>
+
+</html>

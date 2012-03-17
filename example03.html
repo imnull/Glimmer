@@ -1,0 +1,104 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<script type="text/javascript" src="scripts/Physical.base.js"></script>
+	<script type="text/javascript" src="scripts/Glimmer.core.js"></script>
+</head>
+
+<body>
+<h1></h1>
+<script type="text/javascript">
+function drawPoint(ctx, p){
+	if(!p) return;
+	ctx.beginPath();
+	ctx.rect(p.x - 2.5, p.y - 2.5, 5, 5);
+	ctx.stroke();
+}
+
+function drawLines(ctx, ps){
+	if(!ps || ps.length < 2) return;
+	ctx.beginPath();
+	ctx.moveTo(ps[0].x, ps[0].y);
+	for(var i = 1, len = ps.length; i < len; i++){
+		ctx.lineTo(ps[i].x, ps[i].y);
+	}
+	ctx.stroke();
+}
+
+function drawSegment(ctx, seg){
+	if(!seg) return;
+	ctx.beginPath();
+	ctx.moveTo(seg.o.x, seg.o.y);
+	ctx.lineTo(seg.e.x, seg.e.y);
+	ctx.rect(seg.e.x - 2, seg.e.y - 2, 4, 4);
+	ctx.stroke();
+}
+
+function drawPath(ctx, path){
+	for(var i = 0; i < path.length; i++){
+		drawSegment(ctx, path[i]);
+	}
+}
+
+
+
+var canvas = document.createElement('canvas');
+canvas.width = 800;
+canvas.height = 600;
+canvas.style.cssText = 'border:1px solid #000';
+var ctx = canvas.getContext('2d');
+
+var r1 = Segment.create(60, 70, 700, 320);
+var r2 = Segment.create(160, 160, 700, 420);
+var r3 = Segment.create(60, 360, 400, 420);
+var r4 = Segment.create(0, 460, 300, 600);
+var r5 = Segment.create(0, 60, 150, 0);
+var r6 = Segment.create(500, 590, 780, 520);
+var r7 = Segment.create(500, 250, 780, 0);
+
+var light = Segment.create(0, 200, 0, 1500);
+
+
+var rs = new Reflectors(ctx);
+rs.add(r1);
+rs.add(r2);
+rs.add(r3);
+rs.add(r4);
+rs.add(r5);
+rs.add(r6);
+rs.add(r7);
+
+window.onload = function(){
+	document.body.appendChild(canvas);
+
+	rs.drawReflectors(drawSegment);
+
+	var angle = light.angle;
+	var c = 0;
+	var step = -1;
+	setInterval(function(){
+		//ctx.clearRect(0, 0, 800, 600);
+
+		
+		rs.reflect(light);
+		drawPath(ctx, rs.path);
+		
+		light.rotate(Angle.degree(step));
+		rs.path = [];
+		c += step;
+
+		if(Math.abs(c) > 180){
+			light.angle = angle;
+			c = 0;
+			ctx.clearRect(0, 0, 800, 600);
+			rs.drawReflectors(drawSegment);
+		}
+	}, 100);
+}
+
+</script>
+
+</body>
+
+</html>

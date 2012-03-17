@@ -30,15 +30,6 @@
 	}
 
 	/*
-	 * foreach an array with int key
-	 */
-	function ArrayEach(arr, callback){
-		for(var i = 0, len = arr.length; i < len; i++){
-			if(!!callback(arr[i], arr, i)) return;
-		}
-	}
-
-	/*
 	 * Well, a point object, and it can calculate.
 	 */
 	function Point(x, y){
@@ -167,7 +158,6 @@
 	w.Angle = Angle;
 	w.Point = Point;
 	w.Segment = Segment;
-	w.eventPosition = eventPosition;
 	
 	w.MOUSE_DOWN = 'ontouchstart' in document ? 'touchstart' : 'mousedown';
 	w.MOUSE_UP= 'ontouchend' in document ? 'touchend' : 'mouseup';

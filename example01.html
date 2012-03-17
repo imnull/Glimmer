@@ -1,0 +1,61 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<script type="text/javascript" src="scripts/Physical.base.js"></script>
+	<script type="text/javascript" src="scripts/Glimmer.core.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+
+
+
+var canvas = document.createElement('canvas');
+canvas.style.cssText = 'border:1px solid #000';
+var ctx = canvas.getContext('2d');
+
+function draw(ctx){
+	var seg1 = Segment.create(10, 30, 240, 80);
+	var seg2 = Segment.create(5, 140, 260, 10);
+	var seg3 = Segment.create(70, 5, 20, 150);
+
+	var c1 = seg1.cross(seg2);
+	var c2 = seg1.cross(seg3);
+	var c3 = seg2.cross(seg3);
+
+	var a = Math.PI / 6;
+	var a = Angle.degree(15);
+
+	drawSegment(ctx, seg1);
+	drawSegment(ctx, seg2);
+	drawSegment(ctx, seg3);
+	drawPoint(ctx, c1);
+	drawPoint(ctx, c2);
+	drawPoint(ctx, c3);
+}
+
+function drawPoint(ctx, p){
+	if(!p) return;
+	ctx.beginPath();
+	ctx.rect(p.x - 2.5, p.y - 2.5, 5, 5);
+	ctx.stroke();
+}
+
+function drawSegment(ctx, seg){
+	ctx.beginPath();
+	ctx.moveTo(seg.o.x, seg.o.y);
+	ctx.lineTo(seg.e.x, seg.e.y);
+	ctx.stroke();
+}
+
+window.onload = function(){
+	document.body.appendChild(canvas);
+	draw(ctx);
+}
+
+</script>
+
+</body>
+
+</html>

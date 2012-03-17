@@ -7,7 +7,15 @@
  * */
 
 (function(w){
-
+	/*
+	 * foreach an array with int key
+	 */
+	function ArrayEach(arr, callback){
+		for(var i = 0, len = arr.length; i < len; i++){
+			if(!!callback(arr[i], arr, i)) return;
+		}
+	}
+	
 	var Glimmer = {
 		//线性光
 		LinearLight : function(x, y, distance, angle){
@@ -161,6 +169,28 @@
 				this.path.push(path[0]);
 				this.reflect(path[1], r);
 			}
+		},
+		drawReflectors : function(callback){
+			var unactived = [];
+			for(var i = 0, len = this.arr.length; i < len; i++){
+				if(!this.arr[i].active){
+					unactived.push(this.arr[i]);
+					continue;
+				}
+				if(typeof callback === 'function'){
+					callback(this.ctx, this.arr[i]);
+				} else if( typeof this.arr[i].draw === 'function'){
+					this.arr[i].draw();
+				}
+			}
+			for(var i = 0, len = unactived.length; i < len; i++){
+				if(typeof callback === 'function'){
+					callback(this.ctx, unactived[i]);
+				} else if( typeof unactived[i].draw === 'function'){
+					unactived[i].draw();
+				}
+			}
+			unactived = null;
 		}
 	}
 	
@@ -187,5 +217,6 @@
 
 	w.Reflectors = Reflectors;
 	w.Glimmer = Glimmer;
+	w.eventPosition = eventPosition;
 
 })(window);
