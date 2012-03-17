@@ -5,7 +5,7 @@
  * Physical.base.js may be freely distributed under the MIT license.
  *
  * */
-
+ 
 (function(w){
 
 	/*
@@ -153,12 +153,10 @@
 			this.e = e;
 		}
 	}
-
 	
 	w.Angle = Angle;
 	w.Point = Point;
 	w.Segment = Segment;
-	
 	w.MOUSE_DOWN = 'ontouchstart' in document ? 'touchstart' : 'mousedown';
 	w.MOUSE_UP= 'ontouchend' in document ? 'touchend' : 'mouseup';
 	w.MOUSE_MOVE= 'ontouchmove' in document ? 'touchmove' : 'mousemove';

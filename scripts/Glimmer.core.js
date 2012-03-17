@@ -214,9 +214,8 @@
 		}
 		return { x : x, y : y };
 	}
-
+	
 	w.Reflectors = Reflectors;
 	w.Glimmer = Glimmer;
 	w.eventPosition = eventPosition;
-
 })(window);
